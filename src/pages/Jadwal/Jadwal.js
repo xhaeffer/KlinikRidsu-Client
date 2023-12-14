@@ -7,7 +7,9 @@ const JadwalDokter = () => {
   useEffect(() => {
     document.title = 'Jadwal Dokter - Klinik Ridsu';})
 
-  const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,14 +21,29 @@ const JadwalDokter = () => {
 
         const jsonData = await response.json();
         setData(jsonData);
+        setLoading(false); 
       } catch (error) {
         console.error(error);
+        setError('Terjadi kesalahan saat mengambil data'); // Set pesan kesalahan
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []); //
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Tampilkan pesan kesalahan
+  }
+  
   return (
     <div>
       <Header />

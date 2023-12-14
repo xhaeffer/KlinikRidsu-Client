@@ -6,7 +6,7 @@
 }
 
 .body-cekreservasi {
-    max-width: 1200px;
+    max-width: 80%;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -52,10 +52,12 @@
 }
 
 #hasil-cekreservasi table {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     border-collapse: collapse;
     margin-top: 20px;
+    overflow-x: auto;
+    
 }
 
 #hasil-cekreservasi thead {
@@ -63,7 +65,8 @@
     color: #fff;
 }
 
-#hasil-cekreservasi th, #hasil-cekreservasi td {
+#hasil-cekreservasi th,
+#hasil-cekreservasi td {
     padding: 12px;
     text-align: left;
     border: 1px solid #ddd;
@@ -108,3 +111,26 @@
     cursor: pointer;
     font-size: 20px;
 }
+
+@media screen and (max-width: 768px) {
+    #hasil-cekreservasi th,
+    #hasil-cekreservasi td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #hasil-cekreservasi th {
+        text-align: center;
+    }
+
+    #hasil-cekreservasi tr {
+        margin-bottom: 10px;
+    }
+
+    #hasil-cekreservasi tbody {
+        display: block;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+  }

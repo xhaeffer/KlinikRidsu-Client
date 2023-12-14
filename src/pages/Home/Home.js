@@ -43,7 +43,7 @@ const Home = () => {
       <div className="head-home">
         <h1>Selamat Datang di Klinik Ridsu</h1>
         <p>Tempat Terbaik untuk Pelayanan Kesehatan</p>
-        <img style={{ width: '500px' }} src={require('../../assets/images/klinik.jpg')} alt="" />
+        <img src={require('../../assets/images/klinik.jpg')} alt="" />
       </div>
 
       <section id="body-home">

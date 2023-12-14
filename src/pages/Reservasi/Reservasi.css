@@ -88,15 +88,6 @@
     margin-top: 10px;
 }
 
-/* .time {
-    color: #555;
-} */
-
-/* .description {
-    font-weight: bold;
-} */
-
-
 .event table {
     width: 100%;
     border-collapse: collapse;
@@ -117,7 +108,47 @@
 }
 
 @media screen and (max-width: 768px) {
-    .content {
-        margin-left: 0;
+    .tbl-hijau {
+        margin-left: 20px;
     }
+
+    .identitas-dokter {
+        width: 100%;
+        top: auto;
+        right: 0;
+        left: 0;
+        margin: 20px;
+    }
+
+    .body-reservasi {
+        width: 80%;
+        margin: 22px;
+    }
+
+    /* .body-reservasi:not(:last-child) {
+        margin-bottom: 0;
+    } */
+
+    .body-reservasi label {
+        width: 80%;
+        margin: 10px auto;
+    }
+
+    .body-reservasi select,
+    .body-reservasi input,
+    .body-reservasi textarea,
+    .identitas-dokter select,
+    .identitas-dokter input,
+    .identitas-dokter textarea {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .body-reservasi h2, .identitas-dokter h2 {
+        margin-left: 10px;
+    }
+    .body-reservasi p {
+        margin-left: 10px;
+    }
+    
 }

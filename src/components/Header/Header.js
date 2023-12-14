@@ -23,8 +23,6 @@ function Header() {
       if (isMenuOpen && !isMenu && !isUserInfo && !isIcon) {
         setMenuOpen(false);
         menuListRef.current.classList.remove('show');
-      } else {
-        menuListRef.current.classList.toggle('show');
       }
     };
     document.addEventListener("click", handleDocumentClick);
@@ -37,6 +35,14 @@ function Header() {
     setMenuOpen((prevMenuState) => !prevMenuState);
   };
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      menuListRef.current.classList.add('show');
+    } else {
+      menuListRef.current.classList.remove('show');
+    }
+  }, [isMenuOpen]);
+  
   return (
     <div className={`navbar ${isMenuOpen ? 'open' : ''}`}>
       <div className="menu-icon" id="menu-icon" ref={menuIconRef} onClick={() => toggleMenu()}>
