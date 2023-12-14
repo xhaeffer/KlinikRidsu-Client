@@ -1,60 +1,69 @@
-// Home.js
 import React, { useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './Home.css';
 
+// const FadeInScroll = ({ children }) => {
+//   const animatedDivRef = useRef(null);
+
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       ([entry]) => {
+//         if (entry.isIntersecting) {
+//           entry.target.classList.add('fade-in');
+//           observer.disconnect();
+//         }
+//       },
+//       { threshold: 0.5, once: true }
+//     );
+  
+//     if (animatedDivRef.current) {
+//       observer.observe(animatedDivRef.current);
+//     }
+  
+//     return () => {
+//       if (animatedDivRef.current) {
+//         observer.disconnect();
+//       }
+//     };
+//   }, []);
+
+//   return <div ref={animatedDivRef}>{children}</div>;
+// };
+
 const Home = () => {
   useEffect(() => {
-    const animatedDiv = document.getElementById('animated-div');
-
-    function fadeInOnScroll() {
-      var rect = animatedDiv.getBoundingClientRect();
-      var isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
-
-      if (isVisible) {
-        animatedDiv.classList.add('show');
-        window.removeEventListener('scroll', fadeInOnScroll);
-      }
-    }
-
-    window.addEventListener('scroll', fadeInOnScroll);
-    fadeInOnScroll();
+    document.title = 'Home - Klinik Ridsu';
   }, []);
 
   return (
     <div>
       <Header />
-      
-      <div className="head">
+
+      <div className="head-home">
         <h1>Selamat Datang di Klinik Ridsu</h1>
         <p>Tempat Terbaik untuk Pelayanan Kesehatan</p>
-        <img style={{ width: '500px' }} src={require('../../assets/images/klinik.jpg')} alt=""/>
+        <img style={{ width: '500px' }} src={require('../../assets/images/klinik.jpg')} alt="" />
       </div>
 
-      <section id="Informasi">
+      <section id="body-home">
         <h1 style={{ textAlign: 'center' }}>INFORMASI</h1>
-        <div className="isi" id="animated-div">
-          <div className="dalam">
-            <h2>Klinik Terbaik</h2>
-            <img style={{ width: '500px' }} src={require('../../assets/images/tempat.jpg')} alt="" />
-            <p>
-              Klinik Ridsu adalah pilihan terbaik untuk layanan kesehatan yang berkualitas dan komprehensif. Dengan
-              komitmen untuk memberikan perawatan yang canggih dan perhatian yang personal, klinik kami menjadi destinasi
-              utama bagi pasien yang mencari pengalaman medis yang unggul.
-            </p>
-          </div>
-
-          <div className="dalam">
+        {/* <FadeInScroll> */}
+          <section id="klinik-terbaik">
+              <h2>Klinik Terbaik</h2>
+              <img style={{ width: '500px' }} src={require('../../assets/images/tempat.jpg')} alt="" />
+              <p>
+                Dengan komitmen untuk memberikan perawatan yang canggih dan perhatian yang personal, Klinik Ridsu menjadi destinasi utama bagi pasien yang mencari pengalaman medis yang unggul.
+              </p>
+            </section>
+          <section id="dokter-kompeten">
             <h2>Dokter Kompeten</h2>
             <img style={{ width: '500px' }} src={require('../../assets/images/bagus.jpeg')} alt="" />
             <p>
-              Tim profesional kami terdiri dari dokter dan tenaga kesehatan berpengalaman yang didedikasikan untuk
-              memberikan perawatan holistik kepada setiap pasien. Dengan fasilitas modern dan peralatan medis terkini,
-              Klinik Ridsu menawarkan lingkungan yang nyaman dan aman bagi setiap kunjungan.
+              Tim profesional kami terdiri dari dokter dan tenaga kesehatan berpengalaman yang didedikasikan untuk memberikan perawatan holistik kepada setiap pasien.
             </p>
-          </div>
-        </div>
+          </section>
+        {/* </FadeInScroll> */}
       </section>
 
       <Footer />

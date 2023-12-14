@@ -1,0 +1,123 @@
+.isi {
+    padding-top: 80px;
+}
+
+.isi h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 50px;
+}
+
+.tbl-hijau {
+    background-color: #34ac70;
+    padding: 20px 60px;
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    transition: 0.4s;
+    margin: 20px;
+    margin-left: 310px;
+}
+
+.tbl-hijau:hover {
+    background-color: #64646d;
+    border-radius: 4px;
+}
+
+.identitas-dokter {
+    width: 300px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: fixed;
+    top: 10%;
+    right: 20px;
+    transform: translate(0, 0);
+    z-index: 1;
+}
+
+.body-reservasi {
+    width: 800px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin: 20px auto;
+    position: relative;
+    z-index: 1;
+}
+
+.body-reservasi:not(:last-child) {
+    margin-right: 380px;
+}
+
+.body-reservasi h2, .identitas-dokter h2 {
+    color: #000000;
+    margin-left: 50px;
+}
+.body-reservasi p {
+    color: #000000;
+    margin-left: 50px;
+}
+
+.body-reservasi label, .identitas-dokter label {
+    display: block;
+    width: 60%;
+    padding: 20px;
+    padding-left: 0px;
+    margin-left: 50px; 
+}
+
+.body-reservasi select, .identitas-dokter select,
+.body-reservasi input, .identitas-dokter input,
+.body-reservasi textarea, .identitas-dokter textarea {
+    width: 85%;
+    padding: 10px;
+    margin: 0 auto;
+    margin-left : 50px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: block;
+}
+
+.event {
+    margin-top: 10px;
+}
+
+/* .time {
+    color: #555;
+} */
+
+/* .description {
+    font-weight: bold;
+} */
+
+
+.event table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.event table, .event th, .event td {
+    border: 1px solid #ddd;
+}
+
+.event th, .event td {
+    padding: 10px;
+    text-align: left;
+}
+
+.event th {
+    background-color: #34ac70;
+    color: white;
+}
+
+@media screen and (max-width: 768px) {
+    .content {
+        margin-left: 0;
+    }
+}

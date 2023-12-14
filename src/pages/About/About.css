@@ -1,12 +1,9 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+.head-about {
+    text-align: center;
     padding-top: 80px;
-    /* background-color: #f0f0f0; */
-    background-color: #e4f0f5;
 }
 
-section {
+.body-about section{
     background-color: #fff;
     padding: 20px;
     margin: 20px;
@@ -14,31 +11,30 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-section h2 {
+.body-about h2 {
     color: #34ac70;
 }
 
-ul {
+.body-about ul {
     list-style-type: disc;
     padding-left: 20px;
 }
 
-table {
+.body-about table {
     border-collapse: collapse;
-    width: 100%;
+    width: 50%;
+    margin: 0 auto;
 }
 
-table, th, td {
-    border: 1px solid #3F72AF;
+.body-about table, .body-about th, .body-about td {
+    border: 1px solid #ddd;
 }
 
-th, td {
+.body-about th, .body-about td {
     padding: 8px;
     text-align: center;
 }
-
-.gambar{
-    text-align: center;
-    padding-top: 80px;
-
+.body-about th {
+    background-color: #34ac70;
+    color: #fff;
 }

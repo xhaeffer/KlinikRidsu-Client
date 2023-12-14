@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import Header from '../../components/Header/Header'; // Sesuaikan dengan path yang sesuai
-import Footer from '../../components/Footer/Footer'; // Sesuaikan dengan path yang sesuai
-import './Login.css'; // Sesuaikan dengan path yang sesuai
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import './Login.css';
 
 function Login() {
+  useEffect(() => {
+    document.title = 'Login Pasien - Klinik Ridsu';})
+
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -23,13 +28,14 @@ function Login() {
         });
 
       if (!response.ok) {
-        throw new Error('Login failed');
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
       console.log('Login successful');
-      setError('');
+      navigate('/');
     } catch (error) {
       console.error('Login error:', error);
-      setError('Login failed. Please check your credentials.');
+      setError(error.message);
     }
   };
 

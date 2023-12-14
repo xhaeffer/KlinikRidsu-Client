@@ -1,83 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
 
 import './Header.css';
 
-function Header () {
+function Header() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const handleDocumentClick = (event) => {
-      const menuList = document.getElementById("menu-list");
-      const userInfo = document.getElementById("user-info");
-      const menuIcon = document.getElementById("menu-icon");
-    
-      const isMenu = menuList.contains(event.target);
-      const isUserInfo = userInfo.contains(event.target);
-      const isIcon = menuIcon.contains(event.target);
-    
-      console.log('isMenu:', isMenu);
-      console.log('isUserInfo:', isUserInfo);
-      console.log('isIcon:', isIcon);
-    
-      // if (isMenuOpen && !isMenu && !isUserInfo && !isIcon) {
-      //   setMenuOpen(false);
-      // } else {
-      //   menuList.classList.add('show'); // log ini untuk memastikan class 'show' ditambahkan saat mengklik menu
-      // }
-    };
-    document.addEventListener("click", handleDocumentClick);
-
-    return () => {
-      document.removeEventListener("click", handleDocumentClick);
-    };
-  }, []);
+  const menuIconRef = useRef(null);
+  const menuListRef = useRef(null);
+  const userInfoRef = useRef(null);
 
   useEffect(() => {
     const loggedIn = checkUserLoginStatus();
     setLoggedIn(loggedIn);
   }, []);
 
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      const isMenu = menuListRef.current && menuListRef.current.contains(event.target);
+      const isUserInfo = userInfoRef.current && userInfoRef.current.contains(event.target);
+      const isIcon = menuIconRef.current && menuIconRef.current.contains(event.target);
+
+      if (isMenuOpen && !isMenu && !isUserInfo && !isIcon) {
+        setMenuOpen(false);
+        menuListRef.current.classList.remove('show');
+      } else {
+        menuListRef.current.classList.toggle('show');
+      }
+    };
+    document.addEventListener("click", handleDocumentClick);
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, [menuListRef, userInfoRef, menuIconRef, isMenuOpen]);
+
   const toggleMenu = () => {
-    console.log('Toggle Menu Clicked');
-    setMenuOpen(!isMenuOpen);
+    setMenuOpen((prevMenuState) => !prevMenuState);
   };
 
-  console.log('isMenuOpen:', isMenuOpen);
-
   return (
-    <div className={`navbarr ${isMenuOpen ? 'open' : ''}`}>
-      <div className="menu-icon" id="menu-icon" onClick={toggleMenu}>
+    <div className={`navbar ${isMenuOpen ? 'open' : ''}`}>
+      <div className="menu-icon" id="menu-icon" ref={menuIconRef} onClick={() => toggleMenu()}>
         <div className="bar"></div>
         <div className="bar"></div>
         <div className="bar"></div>
       </div>
 
-    <ul className="menu-list" id="menu-list">
-      <div id="user-info" style={{ display: isLoggedIn ? 'block' : 'none' }}>
-        {/* USER INFO GOES HERE */}
-        <img src= {require('../../assets/images/kosong.jpeg')} id="profile-image" alt="" />
-        <div className="user-text">
-          <p id="greeting">{getGreeting()}</p>
-          <p id="user-name">{isLoggedIn ? 'Nama Pengguna' : 'Anda belum login'}</p>
-          <p id="user-no-rs">{isLoggedIn ? 'No RS: RS12345' : 'Silahkan login terlebih dahulu'}</p>
+      <ul className="menu" id="menu" ref={menuListRef}>
+        <div id="user-info" style={{ display: isLoggedIn ? 'block' : 'block' }} ref={userInfoRef}>
+          <img src={require('../../assets/images/kosong.jpeg')} id="profile-image" alt="Profile Image" />
+          <div className="user-info">
+            <p id="greeting">{getGreeting()}</p>
+            <p id="user-name">{isLoggedIn ? 'Nama Pengguna' : 'Anda belum login'}</p>
+            <p id="user-no-rs">{isLoggedIn ? 'No RS: RS12345' : 'Silahkan login terlebih dahulu'}</p>
+          </div>
         </div>
-      </div>
 
-      <li><Link to="/">HOME</Link></li>
-      <li><Link to="/about">ABOUT US</Link></li>
-      <li><Link to="/jadwal">FIND DOCTOR</Link></li>
-      <li>
-        <span>APPOINTMENT</span>
-        <ul className="submenu">
-          <li><Link to="/reservasi">BOOK APPOINTMENT</Link></li>
-          <li><Link to="/cekreservasi">CHECK APPOINTMENT</Link></li>
-        </ul>
-      </li>
-        {/* Uncomment the following lines when you have the corresponding routes */}
-        {/* <li id="login-menu"><Link to="/login">LOGIN</Link></li>
-        <li id="logout-menu" style={{ display: isLoggedIn ? 'block' : 'none' }}><Link to="/logout">LOGOUT</Link></li> */}
+        <div className="menu-list">
+          <li><a href="/">HOME</a></li>
+          <li><a href="about">ABOUT US</a></li>
+          <li><a href="jadwal">FIND DOCTOR</a></li>
+          <li>
+            <span>APPOINTMENT</span>
+            <ul className="submenu">
+              <li><a href="reservasi">BOOK APPOINTMENT</a></li>
+              <li><a href="cekreservasi">CHECK APPOINTMENT</a></li>
+            </ul>
+          </li>
+          <li id="login-menu"><a href="/login">LOGIN</a></li>
+          <li id="logout-menu" style={{ display: isLoggedIn ? 'block' : 'none' }}><a href="/logout">LOGOUT</a></li>
+        </div>
       </ul>
     </div>
   );

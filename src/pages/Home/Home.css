@@ -1,78 +1,80 @@
-/* Home.css */
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #F9F7F7;
-  height: 150vh;
-}
-
-.head {
-  padding: 40px 20px;
+.head-home {
+  padding-top: 80px;
   text-align: center;
   background-color: #DBE2EF;
 }
 
-.head h1 {
+.head-home h1 {
   margin-bottom: 10px;
-  padding-top: 50px;
 }
 
-.head p {
+.head-home p {
   color: #555;
 }
 
-.isi {
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content: space-around;
-}
-
-.dalam {
-  width: 45%;
-  margin: 10px;
-  padding: 10px;
-  text-align: justify; 
-  box-sizing: border-box;
-}
-
-.dalam p {
-  text-align: justify;
-}
-
-.dalam h2 {
-  text-align: center;
-  color: #000;
-}
-
-.dalam img {
-  text-align: center;
-  max-width: 100%; /* Menjamin gambar tidak melebihi lebar elemen yang mengandungnya */
-  height: auto; /* Memastikan rasio aspek gambar tetap terjaga */
-  display: block; /* Tambahkan properti ini agar gambar menjadi elemen block dan tidak menimbulkan spasi di bawahnya */
-  margin: 0 auto;
-}
-
-#Informasi {
+#body-home {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
-#Informasi h1 {
+#body-home h1 {
   color: #000000;
-  margin-bottom: -70px;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 100%; /* Menyusun agar h1 tetap berada pada satu baris */
 }
 
-.isi p {
+#body-home section {
+  width: 45%;
+  margin: 10px;
+  padding: 10px;
   text-align: justify;
+  box-sizing: border-box;
+}
+
+#body-home section p {
+  max-width: 80%;
+  text-align: justify;
+  display: block;
+  margin: 30px auto 10px auto;
+  line-height: 1.5;
+  letter-spacing: 1px;
   color: #555;
 }
 
-/* Media queries untuk responsivitas */
+#body-home section h2 {
+  text-align: center;
+  color: #000;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+#body-home section img {
+  text-align: center;
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 @media screen and (max-width: 768px) {
-  .dalam {
-    width: 80%; /* Mengubah lebar card menjadi 100% pada layar berukuran kecil */
+  #body-home section {
+    width: 80%;
   }
 }
+
+
+/* #animated-div {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#animated-div.fade-in {
+  opacity: 1;
+} */

@@ -4,6 +4,9 @@ import Footer from '../../components/Footer/Footer';
 import './Jadwal.css';
 
 const JadwalDokter = () => {
+  useEffect(() => {
+    document.title = 'Jadwal Dokter - Klinik Ridsu';})
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -27,16 +30,16 @@ const JadwalDokter = () => {
   return (
     <div>
       <Header />
-      <div className="isi">
+      <div className="head-jadwal">
         <h1>Jadwal Dokter</h1>
       </div>
 
-      <div className="schedule">
+      <div className="body-jadwal">
         {data.map((dokter) => (
           <div key={dokter.nama_dokter} className="card">
             <h2>{dokter.nama_dokter}</h2>
             <h3>Poli: {dokter.poli}</h3>
-            <div className="event">
+            <div className="data">
               <img src={`data:image/png;base64,${dokter.gambar}`} width="300" alt={dokter.nama_dokter} />
               <table>
                 <thead>

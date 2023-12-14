@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Header from '../../components/Header/Header'; // Gantilah dengan path yang sesuai
 import Footer from '../../components/Footer/Footer';
 import './CekReservasi.css';
 
 function CekReservasi() {
+  useEffect(() => {
+    document.title = 'Cek Reservasi Pasien - Klinik Ridsu';})
+
   const [noRS, setNoRS] = useState('');
   const [resultData, setResultData] = useState([]);
   const [showResult, setShowResult] = useState(false);
@@ -90,8 +93,8 @@ function CekReservasi() {
 
   const UpdatePopup = ({ data, onUpdate, onClose }) => {
     return (
-      <div id="updatePopup" className="popup" style={{ display: 'flex' }}>
-        <div className="popup-content">
+      <div id="updatePopup" className="popup-cekreservasi" style={{ display: 'flex' }}>
+        <div className="popup-cekreservasi-content">
           <span className="close" onClick={() => onClose('updatePopup')}>&times;</span>
           <h2>Update Reservasi</h2>
           <form id="updateForm">
@@ -107,19 +110,19 @@ function CekReservasi() {
     <div>
       <Header />
 
-      <div className="isi">
+      <div className="head-cekreservasi">
         <h1>Cek Reservasi</h1>
       </div>
 
-      <div className="cek-reservasi-container">
-        <form id="cekReservasiForm" className="cek-reservasi-form" action="/reservasi/api/byNoRS">
+      <div className="body-cekreservasi">
+        <form action="/reservasi/api/byNoRS">
           <label>Masukkan Nomor RS</label>
           <input type="text" id="NoRS" name="no_rs" onChange={handleChange} required />
           <br />
           <button type="button" onClick={cekReservasi}>Cek Reservasi</button>
         </form>
 
-        <div id="resultContainer" style={{ display: showResult ? 'block' : 'none' }}>
+        <div id="hasil-cekreservasi" style={{ display: showResult ? 'block' : 'none' }}>
           <p id="noDataMessage" style={{ display: resultData.length === 0 ? 'block' : 'none' }}>Data tidak ditemukan!</p>
           <table id="resultTable" border="1">
             <thead>

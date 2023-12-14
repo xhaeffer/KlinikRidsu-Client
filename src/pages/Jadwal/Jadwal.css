@@ -1,77 +1,45 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #e4f0f5;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #3F72AF;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    margin-top: 15PX;
-}
-
-.content {
-    padding: 20px;
-    margin-left: 250px;
-    transition: margin-left 0.5s;
-}
-
 @media screen and (max-width: 768px) {
-    .content {
-        margin-left: 0;
-    }
+    
 }
 
-.isi {
+.head-jadwal h1{
     padding-top: 80px;
-}
-
-.isi h1 {
     text-align: center;
     color: #000000;
     margin-bottom: 50px;
 }
 
-.schedule {
+.body-jadwal {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    margin: 50px;
+    padding : 50px;
+    justify-content: space-around;
+    align-items: flex-start;
 }
 
-.card {
+.body-jadwal .card {
     background-color: #fff;
-    margin: 20px;
+    margin-bottom: 20px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
 }
 
-.card h2 {
-    color: #000000;
-}
-
-.event {
-    margin-top: 10px;
-}
-
-.time {
+.body-jadwal .card h2 {
     color: #555;
 }
 
-.description {
-    font-weight: bold;
+.body-jadwal .card h3 {
+    color: #555;
 }
 
-.btn:hover {
-    background-color: #555;
-    border-radius: 7PX;
+.body-jadwal .data {
+    margin-top: 10px;
 }
 
-.btn {
+.body-jadwal .btn {
     display: inline-block;
     background-color: #34ac70;
     color: #fff;
@@ -81,21 +49,25 @@ header {
     border-radius: 5px;
 }
 
-table {
+.data table {
     width: 100%;
     border-collapse: collapse;
 }
 
-table, th, td {
+.data table, .data th, .data td {
     border: 1px solid #ddd;
 }
 
-th, td {
+.data th, .data td {
     padding: 10px;
     text-align: left;
 }
 
-th {
+.data th {
     background-color: #34ac70;
     color: white;
+}
+
+.data tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
