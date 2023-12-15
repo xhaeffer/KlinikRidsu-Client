@@ -14,7 +14,7 @@ const JadwalDokter = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/jadwal');
+        const response = await fetch('http://xhaeffer.me:11121/jadwal');
         if (!response.ok) {
           throw new Error('Gagal mengambil data dari server');
         }

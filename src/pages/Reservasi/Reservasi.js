@@ -15,7 +15,7 @@ const Reservasi = () => {
   useEffect(() => {
     const poliDropdown = document.getElementById('poliDropdown');
 
-    fetch('/jadwal/api/getPoli')
+    fetch('http://xhaeffer.me:11121/jadwal/api/getPoli')
       .then(response => response.json())
       .then(data => {
         setPoliList(data);
@@ -36,7 +36,7 @@ const Reservasi = () => {
     const dokterDropdown = document.getElementById('dokterDropdown');
     dokterDropdown.innerHTML = '<option value="" selected disabled>Pilih Dokter</option>';
 
-    fetch(`/jadwal/api/byPoli/${selectedPoli}`)
+    fetch(`http://xhaeffer.me:11121/jadwal/api/byPoli/${selectedPoli}`)
       .then(response => response.json())
       .then(data => {
         setDokterList(data[0].JadwalDokter);
@@ -78,7 +78,7 @@ const Reservasi = () => {
         Email: document.getElementsByName("Email")[0].value,
     };
 
-    fetch('/reservasi', {
+    fetch('http://xhaeffer.me:11121/reservasi', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

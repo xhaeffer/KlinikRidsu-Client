@@ -19,7 +19,7 @@ function CekReservasi() {
   const cekReservasi = () => {
     const noRSValue = noRS;
 
-    fetch(`http://localhost:8080/reservasi/api/byNoRS/${noRSValue}`)
+    fetch(`http://xhaeffer.me:11121/reservasi/api/byNoRS/${noRSValue}`)
       .then(response => {
         console.log('Response status:', response.status);
         return response.json();
@@ -35,7 +35,7 @@ function CekReservasi() {
   };
 
   const openUpdatePopup = (idReservasi) => {
-    fetch(`http://localhost:8080/reservasi/api/byID/${idReservasi}`)
+    fetch(`http://xhaeffer.me:11121/reservasi/api/byID/${idReservasi}`)
       .then(response => response.json())
       .then(data => {
         setUpdatePopupData(data[0]);
@@ -46,7 +46,7 @@ function CekReservasi() {
   };
 
   const submitUpdate = (updatedData) => {
-    fetch(`http://localhost:8080/reservasi/api/byID/${updatePopupData.id_reservasi}`, {
+    fetch(`http://xhaeffer.me:11121/reservasi/api/byID/${updatePopupData.id_reservasi}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ function CekReservasi() {
       return;
     }
 
-    fetch(`http://localhost:8080/reservasi/api/byID/${reservasiId}`, {
+    fetch(`http://xhaeffer.me:11121/reservasi/api/byID/${reservasiId}`, {
       method: 'DELETE',
     })
       .then(response => response.json())
