@@ -39,7 +39,7 @@ const AboutUs = () => {
 
         <section id="jam-besuk-pasien">
           <h2>Jam Besuk Pasien</h2>
-          <table border="1">
+          <table>
             <thead>
               <tr>
                 <th>Hari</th>

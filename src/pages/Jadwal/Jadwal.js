@@ -14,7 +14,8 @@ const JadwalDokter = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://xhaeffer.me:11121/jadwal');
+        // const response = await fetch('http://xhaeffer.me:11121/api/jadwal');
+        const response = await fetch('http://localhost:8080/api/jadwal');
         if (!response.ok) {
           throw new Error('Gagal mengambil data dari server');
         }
@@ -24,7 +25,7 @@ const JadwalDokter = () => {
         setLoading(false); 
       } catch (error) {
         console.error(error);
-        setError('Terjadi kesalahan saat mengambil data'); // Set pesan kesalahan
+        setError('Terjadi kesalahan saat mengambil data');
         setLoading(false);
       }
     };
@@ -34,15 +35,26 @@ const JadwalDokter = () => {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="loader"></div>
+      <div>
+        <Header />
+        <div className="loading-container">
+          <div className="loader"></div>
+        </div>
+        <Footer />
       </div>
     );
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Tampilkan pesan kesalahan
-  }
+    return (
+      
+    <div>
+      <Header />
+      <p style={{top: "100px", textAlign: "center", position: 'relative', minHeight: '82vh'}}>Error: <br /> {error}</p>
+      <Footer />
+    </div>
+    );
+  };
   
   return (
     <div>
@@ -76,7 +88,11 @@ const JadwalDokter = () => {
                   ))}
                 </tbody>
               </table>
-              <a href={`reservasi?nama=${dokter.nama_dokter}&poli=${dokter.poli}`} className="btn">
+              <a 
+                href={`reservasi?nama=${encodeURIComponent(dokter.nama_dokter)}&poli=${encodeURIComponent(dokter.poli)}`}
+                className="btn" 
+                onClick={(e) => handleReservasiClick(e, dokter.nama_dokter, dokter.poli)}
+              >
                 Reservasi
               </a>
             </div>
@@ -88,5 +104,12 @@ const JadwalDokter = () => {
     </div>
   );
 };
+
+function handleReservasiClick(event, namaDokter, poli) {
+  event.preventDefault();
+  
+  // Lakukan pengalihan ke halaman reservasi
+  window.location.href = `reservasi?nama=${encodeURIComponent(namaDokter)}&poli=${encodeURIComponent(poli)}`;
+}
 
 export default JadwalDokter;

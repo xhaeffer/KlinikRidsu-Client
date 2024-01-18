@@ -6,12 +6,13 @@
 }
 
 .body-cekreservasi {
-    max-width: 80%;
+    max-width: 40%;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    text-align: center;
 }
 
 .body-cekreservasi form {
@@ -25,10 +26,8 @@
     align-items: center;
 }
 
-.body-cekreservasi input[type="text"],
-.body-cekreservasi button {
-    margin-bottom: 16px;
-    padding: 8px;
+.body-cekreservasi input, select{
+    padding: 5px;
     width: 100%;
     box-sizing: border-box;
     border-radius: 4px;
@@ -36,22 +35,30 @@
 }
 
 .body-cekreservasi button {
+    margin: 5px;
+    padding: 10px;
+    width: 35%;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.body-cekreservasi button.hijau{
     background-color: #34ac70;
     color: #fff;
     border: none;
     cursor: pointer;
 }
 
-#hasil-cekreservasi {
-    margin-top: 20px;
-    text-align: center;
+.body-cekreservasi button.merah{
+    background-color: #d32828;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
 
-#hasil-cekreservasi button {
-    margin-top: 20px;
-}
-
-#hasil-cekreservasi table {
+.body-cekreservasi table {
     width: 100%;
     margin: 0 auto;
     border-collapse: collapse;
@@ -60,29 +67,16 @@
     
 }
 
-#hasil-cekreservasi thead {
-    background-color: #3F72AF;
-    color: #fff;
-}
-
-#hasil-cekreservasi th,
-#hasil-cekreservasi td {
+.body-cekreservasi th,
+.body-cekreservasi td {
     padding: 12px;
     text-align: left;
     border: 1px solid #ddd;
+    
 }
 
-#hasil-cekreservasi th {
-    background-color: #3F72AF;
-    color: #fff;
-}
-
-#hasil-cekreservasi tr:nth-child(even) {
+.body-cekreservasi tr:nth-child(even) {
     background-color: #f9f9f9;
-}
-
-#hasil-cekreservasi tr:hover {
-    background-color: #f5f5f5;
 }
 
 .popup-cekreservasi {
@@ -104,33 +98,94 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.popup-content-cekreservasi .close {
+/* .popup-content-cekreservasi .close {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
     font-size: 20px;
+} */
+
+.hasil-cekreservasi {
+    display: flex;
+    flex-direction: column;
+  }
+  
+.data-cekreservasi {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+  
+.data-cekreservasi h3 {
+  margin-bottom: 10px;
+  text-align: left;
 }
 
-@media screen and (max-width: 768px) {
-    #hasil-cekreservasi th,
-    #hasil-cekreservasi td {
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
-    }
+.data-cekreservasi p {
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 14px;
+  text-align: left;
+  font-style: italic;
+}
 
-    #hasil-cekreservasi th {
-        text-align: center;
-    }
+.dataheader-cekreservasi {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+}
+  
+.datastatus-cekreservasi {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+}
+  
+.datastatus-cekreservasi.selesai {
+  background-color: green;
+}
+  
+.datastatus-cekreservasi.dijadwalkan {
+  background-color: gray;
+}
+  
+.dataactions-cekreservasi {
+  margin-top: 10px;
+}
+  
+.dataactions-cekreservasi button {
+  margin-right: 10px;
+}
 
-    #hasil-cekreservasi tr {
-        margin-bottom: 10px;
-    }
+.arrow-button {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  cursor: pointer;
+}
 
-    #hasil-cekreservasi tbody {
-        display: block;
-        max-height: 300px;
-        overflow-y: auto;
-    }
+@media screen and (max-width: 1024px) {
+  .body-cekreservasi {
+    max-width:80%;
   }
+
+  .body-cekreservasi th,
+  .body-cekreservasi td {
+    font-size: 12px; /* Mengurangi ukuran teks pada perangkat seluler jika diperlukan */
+  }
+
+  .body-cekreservasi button {
+    width: 40%;
+  }
+}

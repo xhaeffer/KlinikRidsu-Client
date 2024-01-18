@@ -4,16 +4,33 @@ import './Header.css';
 
 function Header() {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
   const menuIconRef = useRef(null);
   const menuListRef = useRef(null);
   const userInfoRef = useRef(null);
 
   useEffect(() => {
     const loggedIn = checkUserLoginStatus();
-    setLoggedIn(loggedIn);
+    if (loggedIn) {
+      fetchUserData();
+    }
   }, []);
 
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/userData/byID', { credentials: 'include' });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+
+      const userData = await response.json();
+      setUserData(userData);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  
   useEffect(() => {
     const handleDocumentClick = (event) => {
       const isMenu = menuListRef.current && menuListRef.current.contains(event.target);
@@ -52,28 +69,28 @@ function Header() {
       </div>
 
       <ul className="menu" id="menu" ref={menuListRef}>
-        <div id="user-info" style={{ display: isLoggedIn ? 'block' : 'block' }} ref={userInfoRef}>
-          <img src={require('../../assets/images/kosong.jpeg')} id="profile-image" alt="Profile Image" />
+        <div id="user-info" style={{ display: 'block' }} ref={userInfoRef}>
+          <img src={require('../../assets/images/kosong.jpeg')} id="profile-image" alt="Profile" />
           <div className="user-info">
             <p id="greeting">{getGreeting()}</p>
-            <p id="user-name">{isLoggedIn ? 'Nama Pengguna' : 'Anda belum login'}</p>
-            <p id="user-no-rs">{isLoggedIn ? 'No RS: RS12345' : 'Silahkan login terlebih dahulu'}</p>
+            <p id="user-name">{userData?.user.nama || 'Anda belum login'}</p>
+            <p id="user-no-rs">{userData?.user.no_rs || 'Silahkan login terlebih dahulu'}</p>
           </div>
         </div>
 
         <div className="menu-list">
-          <li><a href="/">HOME</a></li>
-          <li><a href="about">ABOUT US</a></li>
-          <li><a href="jadwal">FIND DOCTOR</a></li>
+          <li><a href="/">&gt; Beranda</a></li>
+          <li><a href="about">&gt; Tentang Kami</a></li>
+          <li><a href="jadwal">&gt; Jadwal Dokter</a></li>
           <li>
-            <span>APPOINTMENT</span>
+            <span>&gt; Reservasi</span>
             <ul className="submenu">
-              <li><a href="reservasi">BOOK APPOINTMENT</a></li>
-              <li><a href="cekreservasi">CHECK APPOINTMENT</a></li>
+              <li><a href="reservasi">&gt; Reservasi Dokter</a></li>
+              <li><a href="cekreservasi">&gt; Cek Reservasi</a></li>
             </ul>
           </li>
-          <li id="login-menu"><a href="/login">LOGIN</a></li>
-          <li id="logout-menu" style={{ display: isLoggedIn ? 'block' : 'none' }}><a href="/logout">LOGOUT</a></li>
+          <li id="login-logout" style={{ display: checkUserLoginStatus() ? 'none' : 'block' }}><a href="/login">&gt; LOG IN</a></li>
+          <li id="login-logout" style={{ display: checkUserLoginStatus() ? 'block' : 'none' }}><a href="/logout">&gt; LOG OUT</a></li>
         </div>
       </ul>
     </div>
@@ -96,11 +113,9 @@ function getGreeting() {
 }
 
 function checkUserLoginStatus() {
-  const token = getCookie("token"); // Change "token" to the appropriate cookie name
-  const userSession = getSession("user"); // Change "user" to the appropriate session name
+  const userSession = getSession("user");
 
-  // Adjust the logic based on your needs
-  return token !== null && token !== undefined && token !== "" && userSession !== null && userSession !== undefined;
+  return userSession !== null && userSession !== undefined;
 }
 
 function getSession(key) {
@@ -108,20 +123,8 @@ function getSession(key) {
   const parts = value.split(`; ${key}=`);
 
   if (parts.length === 2) {
-    return JSON.parse(parts.pop().split(';').shift());
-  }
-
-  return null;
-}
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-
-  if (parts.length === 2) {
     return parts.pop().split(';').shift();
   }
-
   return null;
 }
 

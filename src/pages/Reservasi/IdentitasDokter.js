@@ -1,6 +1,9 @@
 import React from 'react';
 
-const IdentitasDokter = ({ nama, poli, jadwalDokter }) => {
+const IdentitasDokter = ({ dokterData = {} }) => {
+  const { nama, poli, jadwalDokter } = dokterData;
+  console.log(dokterData);
+
   return (
     <div className="identitas-dokter" id="doctorCard">
       <h2>{nama}</h2>

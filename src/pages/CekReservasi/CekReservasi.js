@@ -1,179 +1,196 @@
-import React, { useState , useEffect } from 'react';
-import Header from '../../components/Header/Header'; // Gantilah dengan path yang sesuai
+import React, { useState , useEffect, useCallback } from 'react';
+import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+// import Alert from '../../components/Alert/Alert';
+import UpdateReservasi from './UpdateReservasi';
 import './CekReservasi.css';
 
 function CekReservasi() {
-  useEffect(() => {
-    document.title = 'Cek Reservasi Pasien - Klinik Ridsu';})
-
-  const [noRS, setNoRS] = useState('');
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
   const [resultData, setResultData] = useState([]);
-  const [showResult, setShowResult] = useState(false);
-  const [updatePopupData, setUpdatePopupData] = useState(null);
+  const [openCardIndex, setOpenCardIndex] = useState(null);
+  const [recaptchaScore, setRecaptchaScore] = useState(null);
+  const { openUpdatePopup, submitUpdate , deleteReservasi, closePopup, UpdatePopup, updatePopupData, setUpdatePopupData} = UpdateReservasi({ recaptchaScore });
 
-  const handleChange = (e) => {
-    setNoRS(e.target.value);
-  };
+  useEffect(() => {
+    document.title = 'Cek Reservasi - Klinik Ridsu';
+  }, []);
 
-  const cekReservasi = () => {
-    const noRSValue = noRS;
+  useEffect(() => {  
+    const hasSession = document.cookie.includes('user');
 
-    fetch(`http://xhaeffer.me:11121/reservasi/api/byNoRS/${noRSValue}`)
-      .then(response => {
-        console.log('Response status:', response.status);
-        return response.json();
-      })
-      .then(data => {
-        console.log('Response data:', data);
-        setResultData(data);
-        setShowResult(true);
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-  };
+    if (!hasSession && window.location.pathname !== '/login') {
+      localStorage.setItem('previousPage', window.location.pathname);
+      navigate('/login', { state: { message: 'Anda harus login terlebih dahulu!' } });
+    } else {
+      fetchUserData();
+    }
+  }, [navigate]);
 
-  const openUpdatePopup = (idReservasi) => {
-    fetch(`http://xhaeffer.me:11121/reservasi/api/byID/${idReservasi}`)
-      .then(response => response.json())
-      .then(data => {
-        setUpdatePopupData(data[0]);
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-  };
+  const handleVerify = useCallback((token) => {
+    // console.log('Recaptcha token:', token);
+    setRecaptchaScore(token);
+  }, [setRecaptchaScore]);
 
-  const submitUpdate = (updatedData) => {
-    fetch(`http://xhaeffer.me:11121/reservasi/api/byID/${updatePopupData.id_reservasi}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        closePopup("updatePopup");
-        cekReservasi(updatePopupData.id_reservasi);
-        alert("Data reservasi berhasil diupdate!");
-      })
-      .catch(error => {
-        console.error("Error updating data:", error);
-        alert("Terjadi kesalahan saat melakukan update data. Silakan coba lagi.");
-      });
-  };
+  const fetchUserData = async () => {
+    try {
+      // const response = await fetch('http://xhaeffer.me:11121/api/userData/byID', { credentials: 'include' });
+      const response = await fetch('http://localhost:8080/api/userData/byID', { credentials: 'include' });
 
-  const closePopup = (popupId) => {
-    if (popupId === 'updatePopup') {
-      setUpdatePopupData(null);
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+
+      const userData = await response.json();
+      setUserData(userData);
+      fetchReservasiData(userData.user.no_rs);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
     }
   };
 
-  const deleteReservasi = (reservasiId) => {
-    const isConfirmed = window.confirm("Apakah Anda yakin ingin menghapus data?");
+  const fetchReservasiData = async (noRS) => {
+    try {
+      // const response = await fetch(`http://xhaeffer.me:11121/api/reservasi/byNoRS/${noRS}`, { credentials: 'include' });
+      const response = await fetch(`http://localhost:8080/api/reservasi/byNoRS/${noRS}`, { credentials: 'include' });
 
-    if (!isConfirmed) {
-      return;
+      if (!response.ok) {
+        throw new Error('Failed to fetch reservasi data');
+      }
+
+      const data = await response.json();
+      const sortedData = data.sort((a, b) => new Date(b.tgl_kunjungan) - new Date(a.tgl_kunjungan));
+
+      setResultData(sortedData);
+    } catch (error) {
+      console.error('Error fetching reservasi data:', error);
     }
-
-    fetch(`http://xhaeffer.me:11121/reservasi/api/byID/${reservasiId}`, {
-      method: 'DELETE',
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data.message);
-        cekReservasi(reservasiId);
-      })
-      .catch(error => {
-        console.error("Error deleting data:", error);
-      });
   };
 
-  const UpdatePopup = ({ data, onUpdate, onClose }) => {
+  const DetailCard = ({ reservasi, index }) => {
+    const isReservasiSelesai = new Date(reservasi.tgl_kunjungan) < new Date();
+    const showDetails = openCardIndex === index;
+
+    const toggleDetails = (e) => {
+      e.stopPropagation();
+      setOpenCardIndex((prevIndex) => (prevIndex === index ? null : index));
+    };
+    
     return (
-      <div id="updatePopup" className="popup-cekreservasi" style={{ display: 'flex' }}>
-        <div className="popup-cekreservasi-content">
-          <span className="close" onClick={() => onClose('updatePopup')}>&times;</span>
-          <h2>Update Reservasi</h2>
-          <form id="updateForm">
-            {/* Implementasikan form update reservasi di sini */}
-            {/* Pastikan untuk menggunakan onChange untuk mengubah nilai state saat input berubah */}
-          </form>
+      <div className="data-cekreservasi" onClick={(e) => toggleDetails(e)}>
+      <div className="dataheader-cekreservasi">
+        <h3>{reservasi.dokter}</h3>
+        <p>{`Poli: ${reservasi.poli}`}</p>
+        <div className={`datastatus-cekreservasi ${isReservasiSelesai ? 'selesai' : 'dijadwalkan'}`}>
+          {isReservasiSelesai ? 'Selesai' : 'Dijadwalkan'}
         </div>
-      </div>
-    );
-  };
-
-  return (
-    <div>
-      <Header />
-
-      <div className="head-cekreservasi">
-        <h1>Cek Reservasi</h1>
+        <div className="arrow-button">{showDetails ? 'Tutup ▲' : 'Lebih Detail ▼'}</div>
       </div>
 
-      <div className="body-cekreservasi">
-        <form action="/reservasi/api/byNoRS">
-          <label>Masukkan Nomor RS</label>
-          <input type="text" id="NoRS" name="no_rs" onChange={handleChange} required />
-          <br />
-          <button type="button" onClick={cekReservasi}>Cek Reservasi</button>
-        </form>
-
-        <div id="hasil-cekreservasi" style={{ display: showResult ? 'block' : 'none' }}>
-          <p id="noDataMessage" style={{ display: resultData.length === 0 ? 'block' : 'none' }}>Data tidak ditemukan!</p>
-          <table id="resultTable" border="1">
-            <thead>
+      {showDetails && (
+        <div className="details">
+          <table className="details-table">
+            <tbody>
               <tr>
-                <th>Nomor RS</th>
-                <th>NIK</th>
-                <th>Tanggal Kunjungan</th>
-                <th>Nama</th>
-                <th>Jenis Kelamin</th>
-                <th>Tanggal Lahir</th>
-                <th>Email</th>
-                <th>Nomor Telepon</th>
-                <th>Pembayaran</th>
-                <th>Aksi</th>
+                <td>ID Reservasi:</td>
+                <td>{reservasi.id_reservasi}</td>
               </tr>
-            </thead>
-            <tbody id="resultTableBody">
-              {resultData.map(reservasi => (
-                <tr key={reservasi.id_reservasi}>
-                  <td>{reservasi.no_rs}</td>
-                  <td>{reservasi.nik}</td>
-                  <td>{reservasi.tgl_kunjungan}</td>
-                  <td>{reservasi.nama}</td>
-                  <td>{reservasi.jenis_kelamin}</td>
-                  <td>{reservasi.tgl_lahir}</td>
-                  <td>{reservasi.email}</td>
-                  <td>{reservasi.no_telp}</td>
-                  <td>{reservasi.pembayaran}</td>
-                  <td>
-                    <button onClick={() => openUpdatePopup(reservasi.id_reservasi)}>Update</button>
-                    <p></p>
-                    <button onClick={() => deleteReservasi(reservasi.id_reservasi)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
+              <tr>
+                <td>Nomor RS:</td>
+                <td>{reservasi.no_rs}</td>
+              </tr>
+              <tr>
+                <td>NIK:</td>
+                <td>{reservasi.nik}</td>
+              </tr>
+              <tr>
+                <td>Tanggal Kunjungan:</td>
+                <td>{reservasi.tgl_kunjungan}</td>
+              </tr>
+              <tr>
+                <td>Nama:</td>
+                <td>{reservasi.nama}</td>
+              </tr>
+              <tr>
+                <td>Jenis Kelamin:</td>
+                <td>{reservasi.jenis_kelamin}</td>
+              </tr>
+              <tr>
+                <td>Tanggal Lahir:</td>
+                <td>{reservasi.tgl_lahir}</td>
+              </tr>
+              <tr>
+                <td>Email:</td>
+                <td>{reservasi.email}</td>
+              </tr>
+              <tr>
+                <td>Nomor Telepon:</td>
+                <td>{reservasi.no_telp}</td>
+              </tr>
+              <tr>
+                <td>Pembayaran:</td>
+                <td>{reservasi.pembayaran}</td>
+              </tr>
+              {reservasi.pembayaran  !== 'Pribadi' && (
+                      <tr>
+                        <td>No Asuransi:</td>
+                        <td>{reservasi.no_asuransi}</td>
+                      </tr>
+                    )}
             </tbody>
           </table>
-        </div>
 
-        {updatePopupData && (
-          <UpdatePopup
-            data={updatePopupData}
-            onUpdate={submitUpdate}
-            onClose={(popupId) => closePopup(popupId)}
-          />
-        )}
+          {!isReservasiSelesai && (
+            <>
+              <div className="dataactions-cekreservasi">
+                <button className="hijau" onClick={(e) => {e.stopPropagation(); openUpdatePopup(reservasi.id_reservasi, setUpdatePopupData, recaptchaScore);}}>
+                  Perbaiki Data / Jadwal Ulang
+                </button>
+                <button className="merah" onClick={(e) => {e.stopPropagation(); deleteReservasi(reservasi.id_reservasi, fetchReservasiData, userData, recaptchaScore);}}>
+                  Batalkan Reservasi
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+      </div>
+    );
+    
+  };
+  return (
+  <div>
+    <GoogleReCaptcha onVerify={handleVerify} />
+    <Header />
+    
+    <div className="head-cekreservasi">
+      <h1>Cek Reservasi</h1>
+    </div>
+
+    <div className="body-cekreservasi">
+      <p style={{ display: resultData.length === 0 ? 'block' : 'none' }}> Data tidak ditemukan! </p>
+      <div className="hasil-cekreservasi">
+        {resultData.map((reservasi, index) => (
+          <DetailCard key={index} reservasi={reservasi} index={index}/>
+        ))}
       </div>
 
-      <Footer />
+      {updatePopupData && (
+        <UpdatePopup
+          data={updatePopupData}  
+          onUpdate={(updatedData) => submitUpdate(updatedData, userData, fetchReservasiData, closePopup, recaptchaScore)}
+          onClose={(popupId) => closePopup(popupId)}
+        />
+      )}
     </div>
+
+    <Footer />
+  </div>
   );
-}
+  
+};
 
 export default CekReservasi;
