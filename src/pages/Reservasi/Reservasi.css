@@ -1,11 +1,15 @@
-.isi {
+.head-reservasi {
     padding-top: 80px;
 }
 
-.isi h1 {
+.head-reservasi h1 {
     text-align: center;
     color: #000000;
     margin-bottom: 50px;
+}
+
+.body-reservasi {
+    overflow-x: hidden;
 }
 
 .tbl-hijau {
@@ -38,7 +42,7 @@
     z-index: 1;
 }
 
-.body-reservasi {
+.card-reservasi {
     width: 800px;
     background-color: #fff;
     padding: 15px;
@@ -48,22 +52,19 @@
     margin: 20px auto;
     position: relative;
     z-index: 1;
-}
-
-.body-reservasi:not(:last-child) {
     margin-right: 380px;
 }
 
-.body-reservasi h2, .identitas-dokter h2 {
+.card-reservasi h2, .identitas-dokter h2 {
     color: #000000;
     margin-left: 50px;
 }
-.body-reservasi p {
+.card-reservasi p {
     color: #000000;
     margin-left: 50px;
 }
 
-.body-reservasi label, .identitas-dokter label {
+.card-reservasi label, .identitas-dokter label {
     display: block;
     width: 60%;
     padding: 20px;
@@ -71,9 +72,9 @@
     margin-left: 50px; 
 }
 
-.body-reservasi select, .identitas-dokter select,
-.body-reservasi input, .identitas-dokter input,
-.body-reservasi textarea, .identitas-dokter textarea {
+.card-reservasi select, .identitas-dokter select,
+.card-reservasi input, .identitas-dokter input,
+.card-reservasi textarea, .identitas-dokter textarea {
     width: 85%;
     padding: 10px;
     margin: 0 auto;
@@ -110,6 +111,14 @@
 @media screen and (max-width: 768px) {
     .tbl-hijau {
         margin-left: 20px;
+        position: relative;
+        left: 0;
+    }
+
+    .card-reservasi {
+        width: 80%;
+        margin: 22px;
+        float: left;
     }
 
     .identitas-dokter {
@@ -120,23 +129,18 @@
         margin: 20px;
     }
 
-    .body-reservasi {
-        width: 80%;
-        margin: 22px;
-    }
-
-    /* .body-reservasi:not(:last-child) {
+    /* .card-reservasi:not(:last-child) {
         margin-bottom: 0;
     } */
 
-    .body-reservasi label {
+    .card-reservasi label {
         width: 80%;
         margin: 10px auto;
     }
 
-    .body-reservasi select,
-    .body-reservasi input,
-    .body-reservasi textarea,
+    .card-reservasi select,
+    .card-reservasi input,
+    .card-reservasi textarea,
     .identitas-dokter select,
     .identitas-dokter input,
     .identitas-dokter textarea {
@@ -144,10 +148,10 @@
         margin: 10px auto;
     }
 
-    .body-reservasi h2, .identitas-dokter h2 {
+    .card-reservasi h2, .identitas-dokter h2 {
         margin-left: 10px;
     }
-    .body-reservasi p {
+    .card-reservasi p {
         margin-left: 10px;
     }
     
